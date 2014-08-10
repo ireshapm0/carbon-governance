@@ -15,6 +15,8 @@
  */
 package org.wso2.carbon.governance.generic.services;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMException;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
@@ -33,6 +35,7 @@ import org.wso2.carbon.governance.generic.beans.ArtifactsBean;
 import org.wso2.carbon.governance.generic.beans.ContentArtifactsBean;
 import org.wso2.carbon.governance.generic.beans.StoragePathBean;
 import org.wso2.carbon.governance.generic.util.GenericArtifactUtil;
+import org.wso2.carbon.governance.generic.util.RxtJsonToXmlUtil;
 import org.wso2.carbon.governance.generic.util.Util;
 import org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
 import org.wso2.carbon.registry.admin.api.governance.IManageGenericArtifactService;
@@ -831,5 +834,31 @@ public class ManageGenericArtifactService extends RegistryAbstractAdmin implemen
         return LifeCycleStates;
     }
 
+    /**
+     * Generate RXT in XML format from the JSON format and call addRXTResource()
+     * @param jsonRxtConfig RXT in JSON format
+     * @param path
+     * @return boolean isSuccessful
+     * @throws RegistryException
+     */
+    public boolean addJSONRXTResource(String jsonRxtConfig, String path) throws RegistryException {
+
+        JsonObject jsonObject = RxtJsonToXmlUtil.parse(jsonRxtConfig);
+
+        JsonObject artifactDetails = (jsonObject.getAsJsonObject("artifactType"));
+        JsonArray ui = (jsonObject.getAsJsonArray("ui"));
+        JsonArray relationship = (jsonObject.getAsJsonArray("relationships"));
+        JsonObject content = (jsonObject.getAsJsonObject("content"));
+
+        String artifactDetailstoXMLOutput = RxtJsonToXmlUtil.artifactDetailsToXML(artifactDetails);
+        String UItoXMLOutput = RxtJsonToXmlUtil.UIToXML(ui);
+        String relationshiptoXMLOutput = RxtJsonToXmlUtil.relationshipToXML(relationship);
+        String contenttoXMLOutput = RxtJsonToXmlUtil.contentToXML(content);
+
+        String rxtXmlConfig = artifactDetailstoXMLOutput + UItoXMLOutput + "\n" + relationshiptoXMLOutput + "\n" + contenttoXMLOutput + "\n</artifactType>";
+        boolean result = addRXTResource(rxtXmlConfig, null);
+        return result;
+
+    }
 
 }

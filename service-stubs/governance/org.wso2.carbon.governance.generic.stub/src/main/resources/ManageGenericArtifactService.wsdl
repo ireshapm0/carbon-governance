@@ -275,6 +275,21 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
+            <xs:element name="addJSONRXTResource">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="rxtConfig" nillable="true" type="xs:string"></xs:element>
+                        <xs:element minOccurs="0" name="path" nillable="true" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="addJSONRXTResourceResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="addArtifact">
                 <xs:complexType>
                     <xs:sequence>
@@ -352,6 +367,12 @@
     </wsdl:message>
     <wsdl:message name="addRXTResourceResponse">
         <wsdl:part name="parameters" element="ns:addRXTResourceResponse"/>
+    </wsdl:message>
+    <wsdl:message name="addJSONRXTResourceRequest">
+        <wsdl:part name="parameters" element="ns:addJSONRXTResource"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="addJSONRXTResourceResponse">
+        <wsdl:part name="parameters" element="ns:addJSONRXTResourceResponse"></wsdl:part>
     </wsdl:message>
     <wsdl:message name="ManageGenericArtifactServiceRegistryException">
         <wsdl:part name="parameters" element="ns:ManageGenericArtifactServiceRegistryException"/>
@@ -467,6 +488,11 @@
             <wsdl:output message="ns:addRXTResourceResponse" wsaw:Action="urn:addRXTResourceResponse"/>
             <wsdl:fault message="ns:ManageGenericArtifactServiceRegistryException" name="ManageGenericArtifactServiceRegistryException" wsaw:Action="urn:addRXTResourceManageGenericArtifactServiceRegistryException"/>
         </wsdl:operation>
+        <wsdl:operation name="addJSONRXTResource">
+            <wsdl:input message="ns:addJSONRXTResourceRequest" wsaw:Action="urn:addJSONRXTResource"></wsdl:input>
+            <wsdl:output message="ns:addJSONRXTResourceResponse" wsaw:Action="urn:addJSONRXTResourceResponse"></wsdl:output>
+            <wsdl:fault message="ns:ManageGenericArtifactServiceRegistryException" name="ManageGenericArtifactServiceRegistryException" wsaw:Action="urn:addJSONRXTResourceManageGenericArtifactServiceRegistryException"></wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="listContentArtifactsByName">
             <wsdl:input message="ns:listContentArtifactsByNameRequest" wsaw:Action="urn:listContentArtifactsByName"/>
             <wsdl:output message="ns:listContentArtifactsByNameResponse" wsaw:Action="urn:listContentArtifactsByNameResponse"/>
@@ -559,6 +585,18 @@
             </wsdl:output>
             <wsdl:fault name="ManageGenericArtifactServiceRegistryException">
                 <soap:fault use="literal" name="ManageGenericArtifactServiceRegistryException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="addJSONRXTResource">
+            <soap:operation soapAction="urn:addJSONRXTResource" style="document"></soap:operation>
+            <wsdl:input>
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+            <wsdl:fault name="ManageGenericArtifactServiceRegistryException">
+                <soap:fault use="literal" name="ManageGenericArtifactServiceRegistryException"></soap:fault>
             </wsdl:fault>
         </wsdl:operation>
         <wsdl:operation name="setArtifactUIConfiguration">
@@ -762,6 +800,18 @@
                 <soap12:fault use="literal" name="ManageGenericArtifactServiceRegistryException"/>
             </wsdl:fault>
         </wsdl:operation>
+        <wsdl:operation name="addJSONRXTResource">
+            <soap12:operation soapAction="urn:addJSONRXTResource" style="document"></soap12:operation>
+            <wsdl:input>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:output>
+            <wsdl:fault name="ManageGenericArtifactServiceRegistryException">
+                <soap12:fault use="literal" name="ManageGenericArtifactServiceRegistryException"></soap12:fault>
+            </wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="setArtifactUIConfiguration">
             <soap12:operation soapAction="urn:setArtifactUIConfiguration" style="document"/>
             <wsdl:input>
@@ -958,6 +1008,15 @@
             </wsdl:input>
             <wsdl:output>
                 <mime:content type="text/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="addJSONRXTResource">
+            <http:operation location="addJSONRXTResource"></http:operation>
+            <wsdl:input>
+                <mime:content type="text/xml" part="parameters"></mime:content>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="parameters"></mime:content>
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="setArtifactUIConfiguration">
